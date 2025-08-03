@@ -8,39 +8,36 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Leituras")
+@Table(name = "TokenDispositivo") 
 @Getter
 @Setter
 @NoArgsConstructor
-public class Leitura {
+public class DispositivoToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String token;
 
     @Column(nullable = false)
-    private LocalDateTime tempoDaLeitura;
+    private LocalDateTime dataValidade;
 
-    @Column(nullable = false)
-    private double valor;
+    @OneToOne()
+    @JoinColumn(name = "dispositivo_id")
+    private Dispositivo dispositivo;
 
-    @ManyToOne
-    @JoinColumn(name = "sensor_id")
-    private Sensor sensor;
-
-    public Leitura(LocalDateTime tempoDaLeitura, double valor, Sensor sensor) {
-        this.tempoDaLeitura = tempoDaLeitura;
-        this.valor = valor;
-        this.sensor = sensor;
+    public DispositivoToken(String token, LocalDateTime dataValidade, Dispositivo dispositivo) {
+        this.token = token;
+        this.dataValidade = dataValidade;
+        this.dispositivo = dispositivo;
     }
-
 }

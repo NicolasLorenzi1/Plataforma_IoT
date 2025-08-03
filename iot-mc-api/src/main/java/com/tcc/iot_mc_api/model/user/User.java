@@ -7,13 +7,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.tcc.iot_mc_api.model.device.Dispositivo;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -40,6 +41,9 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private UserRole role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Dispositivo> dispositivos;
 
     public User(String email, String password) {
         this.email = email;

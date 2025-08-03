@@ -1,5 +1,6 @@
 package com.tcc.iot_mc_api.model.device;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -34,11 +35,31 @@ public class Sensor {
     @OneToMany(mappedBy = "sensor")
     private List<Leitura> leituras;
 
+    @Column(nullable = false)
+    private String unidadeMedida;
+
+    @Column()
+    private String intervaloDeOperacao;
+
+    @Column()
+    private String precisao;
+
+    @Column(nullable = false)
+    private LocalDateTime criacao;
+
+    @Column(nullable = false)
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "dispositivo_id")
     private Dispositivo dispositivo;
 
-    public Sensor(String nome) {
+    public Sensor(String nome, String unidadeMedida, String status, String precisao, String intervalorDeOperacao, LocalDateTime criacao) {
         this.nome = nome;
+        this.unidadeMedida = unidadeMedida;
+        this.status = status;
+        this.precisao = precisao;
+        this.intervaloDeOperacao = intervalorDeOperacao;
+        this.criacao = criacao;
     }
 }
