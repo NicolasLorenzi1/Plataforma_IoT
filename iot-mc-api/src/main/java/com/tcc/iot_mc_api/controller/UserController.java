@@ -1,5 +1,7 @@
 package com.tcc.iot_mc_api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +18,14 @@ import com.tcc.iot_mc_api.dto.RegisterDTO;
 import com.tcc.iot_mc_api.infra.security.TokenService;
 import com.tcc.iot_mc_api.model.user.User;
 import com.tcc.iot_mc_api.repository.UserRepository;
+import com.tcc.iot_mc_api.service.UserService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+
+
 
 @RestController
 @RequestMapping("/api/user")
@@ -27,6 +37,8 @@ public class UserController {
     private UserRepository repository;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private UserService service;
     
     @PostMapping("/login")
     public ResponseEntity<LoginDTO> login(@RequestBody AuthDTO data) {
@@ -49,5 +61,28 @@ public class UserController {
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("listar/todos")
+    public List<User> listarTodos() {
+        return service.listarTodos();
+    }
+
+    @GetMapping("listar/{id}")
+    public User listar(@PathVariable Long id) {
+        return service.listarUser(id);
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<String> deletarUser(@PathVariable Long id){
+        service.excluirUser(id);
+        return ResponseEntity.ok("Usuario deletado com sucesso!");
+    }
+
+    @PutMapping("atualizar/{id}")
+    public ResponseEntity<String> atualizarUser(@PathVariable Long id, @RequestBody User user) {
+        service.atualizarUser(id, user);
+        return ResponseEntity.ok("Usuario atualizado com sucesso!");
+    }
+    
 }
         
