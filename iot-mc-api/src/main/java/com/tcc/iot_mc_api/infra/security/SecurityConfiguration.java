@@ -20,24 +20,38 @@ public class SecurityConfiguration {
 
     @Autowired
     private SecurityFilter securityFilter;
-    
+
+    @Autowired
+    private DispositivoTokenFilter dispositivoTokenFilter;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/user/cadastrar").permitAll() // geralmente liberamos o cadastrar somente para o admin, para que outros usuarios não criem usuarios admins e possam manipular tudo
-                    .requestMatchers(HttpMethod.POST, "/api/sensor").hasRole("USER")
-                    .anyRequest().authenticated()
-                )
+                .authorizeHttpRequests(auth -> auth
+
+                        // Rotas públicas
+                        .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/cadastrar").permitAll()
+
+                        // Regras específicas para usuários logados
+                        .requestMatchers("/api/user/**").hasRole("ADMIN")
+                        .requestMatchers("/api/dispositivo/**").hasRole("USER")
+
+                        // Sensor e leitura por enquanto liberados
+                        .requestMatchers("/api/sensor/**", "/api/leitura/**").permitAll()
+
+                        // Qualquer outra rota precisa estar autenticada
+                        .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(dispositivoTokenFilter, SecurityFilter.class)
                 .build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

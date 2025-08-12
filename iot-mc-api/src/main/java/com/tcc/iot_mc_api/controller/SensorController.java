@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tcc.iot_mc_api.dto.SensorDTO;
-import com.tcc.iot_mc_api.model.device.Dispositivo;
 import com.tcc.iot_mc_api.model.device.Sensor;
 import com.tcc.iot_mc_api.service.SensorService;
 

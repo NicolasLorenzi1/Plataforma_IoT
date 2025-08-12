@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.tcc.iot_mc_api.dto.DispositivoDTO;
 import com.tcc.iot_mc_api.model.device.Dispositivo;
 import com.tcc.iot_mc_api.model.device.DispositivoToken;
-import com.tcc.iot_mc_api.model.user.User;
 import com.tcc.iot_mc_api.repository.DispositivoRepository;
 
 @Service

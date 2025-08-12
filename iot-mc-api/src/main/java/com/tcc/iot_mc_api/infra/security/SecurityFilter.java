@@ -31,10 +31,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             String subject = tokenService.getSubjectFromToken(token);
             UserDetails user = userRepository.findByEmail(subject);
 
-            // Cria um objeto de autenticação do Spring Security
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
-            // Define o objeto de autenticação no contexto de segurança do Spring Security
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);

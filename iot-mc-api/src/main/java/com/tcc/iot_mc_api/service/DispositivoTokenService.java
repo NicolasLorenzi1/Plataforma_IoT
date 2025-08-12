@@ -27,4 +27,11 @@ public class DispositivoTokenService {
         repository.save(token);
         return token;
     }
+
+    public boolean validarToken(String token) {
+        return repository.findByToken(token)
+            .filter(t -> t.getDataValidade().isAfter(LocalDateTime.now()))
+            .isPresent();
+    }
+
 }
