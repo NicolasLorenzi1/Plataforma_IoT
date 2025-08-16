@@ -32,7 +32,6 @@ public class SensorService {
 
         sensor.setNome(sensorAtualizado.getNome());
         sensor.setCriacao(sensorAtualizado.getCriacao());
-        sensor.setDispositivo(sensorAtualizado.getDispositivo());
         sensor.setIntervaloDeOperacao(sensorAtualizado.getIntervaloDeOperacao());
         sensor.setLeituras(sensorAtualizado.getLeituras());
         sensor.setPrecisao(sensorAtualizado.getPrecisao());

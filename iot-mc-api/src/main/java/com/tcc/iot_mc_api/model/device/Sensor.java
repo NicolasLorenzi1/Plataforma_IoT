@@ -8,8 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -50,9 +49,8 @@ public class Sensor {
     @Column(nullable = false)
     private String status;
 
-    @ManyToOne
-    @JoinColumn(name = "dispositivo_id")
-    private Dispositivo dispositivo;
+    @ManyToMany(mappedBy = "sensores")
+    private List<Dispositivo> dispositivos;
 
     public Sensor(String nome, String unidadeMedida, String status, String precisao, String intervalorDeOperacao, LocalDateTime criacao) {
         this.nome = nome;
@@ -61,5 +59,9 @@ public class Sensor {
         this.precisao = precisao;
         this.intervaloDeOperacao = intervalorDeOperacao;
         this.criacao = criacao;
+    }
+
+    public void adicinarDispositivo(Dispositivo dispositivo){
+        dispositivos.add(dispositivo);
     }
 }

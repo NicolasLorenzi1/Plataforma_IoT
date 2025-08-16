@@ -35,9 +35,16 @@ public class DispositivoToken {
     @JoinColumn(name = "dispositivo_id")
     private Dispositivo dispositivo;
 
-    public DispositivoToken(String token, LocalDateTime dataValidade, Dispositivo dispositivo) {
+    @Column(nullable = false)
+    private DispositivoTokenRole role;
+
+    @Column(nullable = false)
+    private boolean revoked = false;
+
+    public DispositivoToken(String token, LocalDateTime dataValidade, Dispositivo dispositivo, DispositivoTokenRole role) {
         this.token = token;
         this.dataValidade = dataValidade;
         this.dispositivo = dispositivo;
+        this.role = role;
     }
 }

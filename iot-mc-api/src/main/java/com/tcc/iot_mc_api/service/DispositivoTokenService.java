@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.tcc.iot_mc_api.model.device.Dispositivo;
 import com.tcc.iot_mc_api.model.device.DispositivoToken;
+import com.tcc.iot_mc_api.model.device.DispositivoTokenRole;
 import com.tcc.iot_mc_api.repository.DispositivoTokenRepository;
 
 @Service
@@ -22,8 +23,8 @@ public class DispositivoTokenService {
         return UUID.randomUUID().toString();
     }
 
-    public DispositivoToken salvarToken(Dispositivo dispositivo){
-        DispositivoToken token = new DispositivoToken(gerarToken(), LocalDateTime.now().plusDays(7), dispositivo);
+    public DispositivoToken salvarToken(Dispositivo dispositivo, DispositivoTokenRole role){
+        DispositivoToken token = new DispositivoToken(gerarToken(), LocalDateTime.now().plusDays(7), dispositivo, role);
         repository.save(token);
         return token;
     }
