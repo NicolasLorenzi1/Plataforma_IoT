@@ -31,18 +31,18 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
 
-                        // Rotas públicas
                         .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/user/cadastrar").permitAll()
 
-                        // Regras específicas para usuários logados
+                        // Somente ADMIN pode acessar rotas de usuário
                         .requestMatchers("/api/user/**").hasRole("ADMIN")
-                        .requestMatchers("/api/dispositivo/**").hasRole("USER")
 
-                        // Sensor e leitura por enquanto liberados
-                        .requestMatchers("/api/sensor/**", "/api/leitura/**").permitAll()
+                        // Qualquer usuário autenticado (USER ou ADMIN) pode acessar dispositivos,
+                        // sensores e leituras
+                        .requestMatchers("/api/dispositivo/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/sensor/**", "/api/leitura/**").hasAnyRole("USER", "ADMIN")
 
-                        // Qualquer outra rota precisa estar autenticada
+                        // Qualquer outra precisa estar autenticada
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(dispositivoTokenFilter, SecurityFilter.class)

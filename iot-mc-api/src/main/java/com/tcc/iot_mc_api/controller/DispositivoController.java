@@ -1,5 +1,7 @@
 package com.tcc.iot_mc_api.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,38 +23,74 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/dispositivo")
 public class DispositivoController {
 
+    private static final Logger logger = LoggerFactory.getLogger(DispositivoController.class);
+
     private final DispositivoService service;
 
     public DispositivoController(DispositivoService service) {
         this.service = service;
     }
 
-    @PostMapping("registrarDispositivo")
+    @PostMapping("registrar")
     public ResponseEntity<String> registrarDispositivo(@RequestBody DispositivoDTO data) {
-        String tokenGerado = service.registrarDispositivo(data);             
-        return ResponseEntity.ok("Dispositivo salvo\nToken:" + tokenGerado);
+        logger.info("Recebida requisição para registrar dispositivo: {}", data);
+
+        try {
+            String tokenGerado = service.registrarDispositivo(data);  
+            logger.info("Dispositivo registrado com sucesso. Token gerado: {}", tokenGerado);
+            return ResponseEntity.ok("Dispositivo salvo\nToken:" + tokenGerado);
+        } catch (Exception e) {
+            logger.error("Erro ao registrar dispositivo: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Erro ao salvar dispositivo");
+        }
     }
 
     @GetMapping("listar/todos")
     public List<Dispositivo> listarTodos() {
-        return service.listarTodos();
+        logger.info("Listando todos os dispositivos");
+        List<Dispositivo> dispositivos = service.listarTodos();
+        logger.info("Total de dispositivos encontrados: {}", dispositivos.size());
+        return dispositivos;
     }
 
     @GetMapping("listar/{id}")
     public Dispositivo listar(@PathVariable Long id) {
-        return service.listarDispositivo(id);
+        logger.info("Buscando dispositivo com ID {}", id);
+        Dispositivo dispositivo = service.listarDispositivo(id);
+
+        if (dispositivo == null) {
+            logger.warn("Dispositivo com ID {} não encontrado", id);
+        } else {
+            logger.info("Dispositivo com ID {} encontrado", id);
+        }
+        return dispositivo;
     }
 
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarDispositivo(@PathVariable Long id){
-        service.excluirDispositivo(id);
-        return ResponseEntity.ok("Dispositivo deletado com sucesso!");
+        logger.info("Solicitação para deletar dispositivo com ID {}", id);
+
+        try {
+            service.excluirDispositivo(id);
+            logger.info("Dispositivo com ID {} deletado com sucesso", id);
+            return ResponseEntity.ok("Dispositivo deletado com sucesso!");
+        } catch (Exception e) {
+            logger.error("Erro ao deletar dispositivo com ID {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Erro ao deletar dispositivo");
+        }
     }
 
     @PutMapping("atualizar/{id}")
     public ResponseEntity<String> atualizarDispositivo(@PathVariable Long id, @RequestBody Dispositivo dispositivo) {
-        service.atualizarDispositivo(id, dispositivo);
-        return ResponseEntity.ok("Dispositivo atualizado com sucesso!");
+        logger.info("Solicitação para atualizar dispositivo com ID {}", id);
+
+        try {
+            service.atualizarDispositivo(id, dispositivo);
+            logger.info("Dispositivo com ID {} atualizado com sucesso", id);
+            return ResponseEntity.ok("Dispositivo atualizado com sucesso!");
+        } catch (Exception e) {
+            logger.error("Erro ao atualizar dispositivo com ID {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Erro ao atualizar dispositivo");
+        }
     }
-    
 }

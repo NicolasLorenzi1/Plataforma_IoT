@@ -22,11 +22,10 @@ public class DispositivoService {
     }
 
     public String registrarDispositivo(DispositivoDTO dispositivoDTO) {
-        Dispositivo dispositivo = new Dispositivo(dispositivoDTO.nome(), dispositivoDTO.local(), LocalDateTime.now(),
-                dispositivoDTO.status());
+        Dispositivo dispositivo = new Dispositivo(dispositivoDTO.nome(), dispositivoDTO.local(), LocalDateTime.now(), dispositivoDTO.status());
         repository.save(dispositivo); // para salvar e gerar o ID
-        // DispositivoToken token = tokenService.salvarToken(dispositivo);
-        // dispositivo.setToken(token);
+        DispositivoToken token = tokenService.salvarToken(dispositivo);
+        dispositivo.setToken(token);
         repository.save(dispositivo);
         return dispositivo.getToken().getToken();
     }

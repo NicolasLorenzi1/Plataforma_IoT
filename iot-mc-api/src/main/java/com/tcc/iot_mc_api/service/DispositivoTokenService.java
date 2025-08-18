@@ -23,8 +23,8 @@ public class DispositivoTokenService {
         return UUID.randomUUID().toString();
     }
 
-    public DispositivoToken salvarToken(Dispositivo dispositivo, DispositivoTokenRole role){
-        DispositivoToken token = new DispositivoToken(gerarToken(), LocalDateTime.now().plusDays(7), dispositivo, role);
+    public DispositivoToken salvarToken(Dispositivo dispositivo){
+        DispositivoToken token = new DispositivoToken(gerarToken(), LocalDateTime.now().plusDays(7), dispositivo, DispositivoTokenRole.EDITOR);
         repository.save(token);
         return token;
     }
