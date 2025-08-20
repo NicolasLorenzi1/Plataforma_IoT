@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.tcc.iot_mc_api.model.device.Dispositivo;
+import com.tcc.iot_mc_api.model.device.Sensor;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,6 +45,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<Dispositivo> dispositivos;
+
+    @OneToMany(mappedBy = "user")
+    private List<Sensor> sensores;
 
     public User(String email, String password) {
         this.email = email;

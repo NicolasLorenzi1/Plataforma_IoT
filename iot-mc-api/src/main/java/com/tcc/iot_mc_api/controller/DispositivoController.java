@@ -44,7 +44,7 @@ public class DispositivoController {
             return ResponseEntity.internalServerError().body("Erro ao salvar dispositivo");
         }
     }
-
+    
     @GetMapping("listar/todos")
     public List<Dispositivo> listarTodos() {
         logger.info("Listando todos os dispositivos");
@@ -93,4 +93,6 @@ public class DispositivoController {
             return ResponseEntity.internalServerError().body("Erro ao atualizar dispositivo");
         }
     }
+
+    
 }

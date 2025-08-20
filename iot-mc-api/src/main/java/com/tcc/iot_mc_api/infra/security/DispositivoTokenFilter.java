@@ -25,7 +25,7 @@ public class DispositivoTokenFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        if (path.startsWith("/api/sensor") || path.startsWith("/api/leitura")) {
+        if ((path.startsWith("/api/sensor") || path.startsWith("/api/leitura"))) {
             String token = request.getHeader("X-DEVICE-TOKEN");
 
             if (token == null || !tokenService.validarToken(token)) {

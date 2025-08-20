@@ -18,7 +18,7 @@ public class SensorService {
     }
 
     public void registrarSensor(SensorDTO data){
-        Sensor sensor = new Sensor(data.nome(), data.unidadeMedida(), data.status(), data.precisao(), data.intervaloDeOperacao(), LocalDateTime.now());
+        Sensor sensor = new Sensor(data.nome(), data.unidadeMedida(), data.status(), data.precisao(), data.intervaloDeOperacao(), LocalDateTime.now(), data.user());
         repository.save(sensor);
     }
 
