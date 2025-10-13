@@ -19,6 +19,7 @@ import com.tcc.iot_mc_api.model.user.User;
 import com.tcc.iot_mc_api.repository.UserRepository;
 import com.tcc.iot_mc_api.service.UserService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {

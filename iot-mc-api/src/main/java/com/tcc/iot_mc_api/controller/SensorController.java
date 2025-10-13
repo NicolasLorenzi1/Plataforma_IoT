@@ -11,6 +11,7 @@ import com.tcc.iot_mc_api.dto.SensorDTO;
 import com.tcc.iot_mc_api.model.device.Sensor;
 import com.tcc.iot_mc_api.service.SensorService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/sensor")
 public class SensorController {
