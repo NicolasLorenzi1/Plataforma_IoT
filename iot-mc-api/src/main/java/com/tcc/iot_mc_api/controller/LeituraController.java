@@ -25,7 +25,7 @@ public class LeituraController {
         this.leituraService = leituraService;
     }
 
-    @PostMapping("enviarDados")
+    @PostMapping("enviar")
     public ResponseEntity<String> receberLeitura(@RequestBody LeituraDTO leituraDTO) {
         logger.info("Recebida leitura: {}", leituraDTO);
 

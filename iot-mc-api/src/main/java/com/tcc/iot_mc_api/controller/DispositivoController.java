@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tcc.iot_mc_api.dto.DispositivoDTO;
 import com.tcc.iot_mc_api.model.device.Dispositivo;
+import com.tcc.iot_mc_api.model.user.User;
 import com.tcc.iot_mc_api.service.DispositivoService;
 
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,11 +36,11 @@ public class DispositivoController {
     }
 
     @PostMapping("registrar")
-    public ResponseEntity<String> registrarDispositivo(@RequestBody DispositivoDTO data) {
+    public ResponseEntity<String> registrarDispositivo(@RequestBody DispositivoDTO data, @AuthenticationPrincipal User user) {
         logger.info("Recebida requisição para registrar dispositivo: {}", data);
 
         try {
-            String tokenGerado = service.registrarDispositivo(data);  
+            String tokenGerado = service.registrarDispositivo(data, user);  
             logger.info("Dispositivo registrado com sucesso. Token gerado: {}", tokenGerado);
             return ResponseEntity.ok("Dispositivo salvo\nToken:" + tokenGerado);
         } catch (Exception e) {
@@ -83,7 +85,7 @@ public class DispositivoController {
     }
 
     @PutMapping("atualizar/{id}")
-    public ResponseEntity<String> atualizarDispositivo(@PathVariable Long id, @RequestBody Dispositivo dispositivo) {
+    public ResponseEntity<String> atualizarDispositivo(@PathVariable Long id, @RequestBody DispositivoDTO dispositivo) {
         logger.info("Solicitação para atualizar dispositivo com ID {}", id);
 
         try {

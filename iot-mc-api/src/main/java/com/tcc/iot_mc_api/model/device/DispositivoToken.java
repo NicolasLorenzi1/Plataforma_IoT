@@ -2,6 +2,8 @@ package com.tcc.iot_mc_api.model.device;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +35,7 @@ public class DispositivoToken {
 
     @OneToOne()
     @JoinColumn(name = "dispositivo_id")
+    @JsonBackReference
     private Dispositivo dispositivo;
 
     @Column(nullable = false)

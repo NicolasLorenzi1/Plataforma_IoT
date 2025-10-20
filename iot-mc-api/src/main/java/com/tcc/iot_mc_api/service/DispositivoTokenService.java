@@ -35,4 +35,9 @@ public class DispositivoTokenService {
             .isPresent();
     }
 
+    public Dispositivo getDispositivoByToken(String token) {
+        DispositivoToken dispositivoToken = repository.findByToken(token).orElseThrow(() -> new RuntimeException("Token inválido ou expirado"));
+        return dispositivoToken.getDispositivo();
+    } 
+
 }

@@ -3,15 +3,16 @@ package com.tcc.iot_mc_api.model.device;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tcc.iot_mc_api.model.user.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -35,9 +36,6 @@ public class Sensor {
     @Column(nullable = false)
     private String nome;
 
-    @OneToMany(mappedBy = "sensor")
-    private List<Leitura> leituras;
-
     @Column(nullable = false)
     private String unidadeMedida;
 
@@ -53,10 +51,13 @@ public class Sensor {
     @Column(nullable = false)
     private String status;
 
-    @ManyToMany(mappedBy = "sensores")
-    private List<Dispositivo> dispositivos;
+    @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<DispositivoSensor> dispositivoSensores;
+
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -71,7 +72,4 @@ public class Sensor {
         this.user = user;
     }
 
-    public void adicinarDispositivo(Dispositivo dispositivo){
-        dispositivos.add(dispositivo);
-    }
 }

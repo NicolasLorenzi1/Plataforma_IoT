@@ -6,21 +6,41 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tcc.iot_mc_api.dto.SensorDTO;
+import com.tcc.iot_mc_api.model.device.Dispositivo;
 import com.tcc.iot_mc_api.model.device.Sensor;
+import com.tcc.iot_mc_api.model.user.User;
 import com.tcc.iot_mc_api.repository.SensorRepository;
 
 @Service
 public class SensorService {
     private final SensorRepository repository;
+    private final DispositivoSensorService dispositivoSensorService;
+    private final DispositivoTokenService dispositivoTokenService;
 
-    public SensorService(SensorRepository repository) {
+    public SensorService(SensorRepository repository, DispositivoSensorService dispositivoSensorService, DispositivoTokenService dispositivoTokenService) {
         this.repository = repository;
+        this.dispositivoSensorService = dispositivoSensorService;
+        this.dispositivoTokenService = dispositivoTokenService;
     }
 
-    public void registrarSensor(SensorDTO data){
-        Sensor sensor = new Sensor(data.nome(), data.unidadeMedida(), data.status(), data.precisao(), data.intervaloDeOperacao(), LocalDateTime.now(), data.user());
-        repository.save(sensor);
-    }
+public void registrarSensor(SensorDTO data, String dispositivoToken, User user) {
+    Sensor sensor = new Sensor(
+        data.nome(),
+        data.unidadeMedida(),
+        data.status(),
+        data.precisao(),
+        data.intervaloDeOperacao(),
+        LocalDateTime.now(),
+        user
+    );
+
+    // Salva primeiro para gerar o ID
+    repository.save(sensor);
+
+    Dispositivo dispositivo = dispositivoTokenService.getDispositivoByToken(dispositivoToken);
+    dispositivoSensorService.vincularSensorAoDispositivo(dispositivo.getId(), sensor.getId());
+}
+
 
     public void excluirSensor(Long id) {
         repository.deleteById(id);
@@ -28,12 +48,10 @@ public class SensorService {
 
     public void atualizarSensor(Long id, Sensor sensorAtualizado) {
         Sensor sensor = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sensor não encontrado"));
+            .orElseThrow(() -> new RuntimeException("Sensor não encontrado"));
 
         sensor.setNome(sensorAtualizado.getNome());
-        sensor.setCriacao(sensorAtualizado.getCriacao());
         sensor.setIntervaloDeOperacao(sensorAtualizado.getIntervaloDeOperacao());
-        sensor.setLeituras(sensorAtualizado.getLeituras());
         sensor.setPrecisao(sensorAtualizado.getPrecisao());
         sensor.setStatus(sensorAtualizado.getStatus());
         sensor.setUnidadeMedida(sensorAtualizado.getUnidadeMedida());
@@ -42,10 +60,12 @@ public class SensorService {
     }
 
     public Sensor listarSensor(Long id) {
-        return repository.findById(id).orElseThrow(() -> new RuntimeException("Sensor não encontrado"));
+        return repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Sensor não encontrado"));
     }
 
     public List<Sensor> listarTodos() {
         return repository.findAll();
     }
 }
+

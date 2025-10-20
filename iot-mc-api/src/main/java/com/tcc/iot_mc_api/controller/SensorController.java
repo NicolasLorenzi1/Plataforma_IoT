@@ -5,10 +5,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.tcc.iot_mc_api.dto.SensorDTO;
 import com.tcc.iot_mc_api.model.device.Sensor;
+import com.tcc.iot_mc_api.model.user.User;
 import com.tcc.iot_mc_api.service.SensorService;
 
 @CrossOrigin(origins = "*")
@@ -25,11 +27,11 @@ public class SensorController {
     }
 
     @PostMapping("registrar")
-    public ResponseEntity<String> registrarSensor(@RequestBody SensorDTO data) {
+    public ResponseEntity<String> registrarSensor(@RequestBody SensorDTO data, @RequestHeader("X-DEVICE-TOKEN") String dispositivoToken,  @AuthenticationPrincipal User user) {
         logger.info("Solicitação para registrar sensor: {}", data);
 
         try {
-            service.registrarSensor(data);
+            service.registrarSensor(data, dispositivoToken, user);
             logger.info("Sensor registrado com sucesso");
             return ResponseEntity.ok("Sensor salvo");
         } catch (Exception e) {

@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.tcc.iot_mc_api.model.user.User;
 import com.tcc.iot_mc_api.repository.UserRepository;
 
 import jakarta.servlet.FilterChain;
@@ -29,7 +30,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         String token = recoveryToken(request);
         if (token != null) {
             String subject = tokenService.getSubjectFromToken(token);
-            UserDetails user = userRepository.findByEmail(subject);
+            User user = userRepository.findByEmail(subject);
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 

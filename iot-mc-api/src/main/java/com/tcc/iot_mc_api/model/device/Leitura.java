@@ -34,13 +34,14 @@ public class Leitura {
     private double valor;
 
     @ManyToOne
-    @JoinColumn(name = "sensor_id")
-    private Sensor sensor;
+    @JoinColumn(name = "dispositivo_sensor_id")
+    private DispositivoSensor dispositivoSensor;
 
-    public Leitura(LocalDateTime tempoDaLeitura, double valor, Sensor sensor) {
+
+    public Leitura(LocalDateTime tempoDaLeitura, double valor, DispositivoSensor dispositivoSensor) {
         this.tempoDaLeitura = tempoDaLeitura;
         this.valor = valor;
-        this.sensor = sensor;
+        this.dispositivoSensor = dispositivoSensor;
     }
 
 }

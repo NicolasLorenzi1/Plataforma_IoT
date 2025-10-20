@@ -3,6 +3,9 @@ package com.tcc.iot_mc_api.model.device;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tcc.iot_mc_api.model.user.User;
 
 import jakarta.persistence.CascadeType;
@@ -12,9 +15,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -46,27 +49,25 @@ public class Dispositivo {
     @Column(nullable = false)
     private String status;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}) //Ao salvar um dispositivo novo, os sensores também serão salvos (se forem novos).
-    @JoinTable(                                                     //Mas não serão deletados se remover o dispositivo
-        name = "dispositivos_sensores",
-        joinColumns = @JoinColumn(name = "dispositivo_id"),
-        inverseJoinColumns = @JoinColumn(name = "sensor_id")
-    )
-    private List<Sensor> sensores;
+    @OneToMany(mappedBy = "dispositivo", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<DispositivoSensor> dispositivoSensores;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
-    @OneToOne(mappedBy = "dispositivo")
+    @OneToOne(mappedBy = "dispositivo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private DispositivoToken token;
 
-
-    public Dispositivo(String nome, String local, LocalDateTime criacao, String status) {
+    public Dispositivo(String nome, String local, LocalDateTime criacao, String status, User user) {
         this.nome = nome;
         this.local = local;
         this.criacao = criacao;
         this.status = status;
+        this.user = user;
     }
-
 }
+
