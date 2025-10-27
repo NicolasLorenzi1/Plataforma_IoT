@@ -32,19 +32,18 @@ public class DispositivoService {
         );
 
         repository.save(dispositivo);
-        DispositivoToken token = tokenService.salvarToken(dispositivo);
-        dispositivo.setToken(token);
-        repository.save(dispositivo);
 
-        return dispositivo.getToken().getToken();
+        // Como o dispositivo é novo, geramos um token de editor por padrão
+        DispositivoToken token = tokenService.gerarTokenParaDispositivo(dispositivo, true);
+
+        return token.getToken();
     }
 
     public void excluirDispositivo(Long id) {
-        Dispositivo d = repository.findById(id)
+        Dispositivo dispositivo = repository.findById(id)
             .orElseThrow(() -> new RuntimeException("Dispositivo não encontrado"));
 
-        d.setToken(null);
-        repository.delete(d);
+        repository.delete(dispositivo);
     }
 
     public void atualizarDispositivo(Long id, DispositivoDTO dispositivoAtualizado) {
@@ -68,6 +67,3 @@ public class DispositivoService {
         return repository.findAll();
     }
 }
-
-
-
