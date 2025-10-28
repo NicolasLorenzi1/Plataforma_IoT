@@ -2,7 +2,8 @@ package com.tcc.iot_mc_api.model.device;
 
 public enum DispositivoTokenRole {
     EDITOR("editor"),
-    LEITOR("leitor");
+    LEITOR("leitor"),
+    DONO("dono");
 
     private String role;
 

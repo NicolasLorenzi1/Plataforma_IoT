@@ -2,6 +2,8 @@ package com.tcc.iot_mc_api.model.device;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,7 @@ public class DispositivoSensor {
     private Sensor sensor;
 
     @OneToMany(mappedBy = "dispositivoSensor", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Leitura> leituras;
 
     public DispositivoSensor() {

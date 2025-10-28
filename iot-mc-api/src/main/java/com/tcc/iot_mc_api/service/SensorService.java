@@ -34,7 +34,6 @@ public void registrarSensor(SensorDTO data, String dispositivoToken, User user) 
         user
     );
 
-    // Salva primeiro para gerar o ID
     repository.save(sensor);
 
     Dispositivo dispositivo = dispositivoTokenService.getDispositivoByToken(dispositivoToken);

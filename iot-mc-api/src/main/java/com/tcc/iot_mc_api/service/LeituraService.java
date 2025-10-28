@@ -1,6 +1,7 @@
 package com.tcc.iot_mc_api.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,9 @@ public class LeituraService {
         Leitura leitura = new Leitura(LocalDateTime.now(), leituraDTO.valor(), dispositivoSensor);
 
         leituraRepository.save(leitura);
+    }
+
+    public List<Leitura> listarTodos() {
+        return leituraRepository.findAll();
     }
 }

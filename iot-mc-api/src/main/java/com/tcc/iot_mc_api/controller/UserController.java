@@ -37,18 +37,18 @@ public class UserController {
     
     @PostMapping("/login")
     public ResponseEntity<LoginDTO> login(@RequestBody AuthDTO data) {
-        logger.info("Tentativa de login para usuário: {}", data.email());
+        logger.info("Tentativa de login para usuario: {}", data.email());
 
         try {
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
             var auth = this.authenticationManager.authenticate(usernamePassword);
 
             String token = tokenService.generateToken((User) auth.getPrincipal());
-            logger.info("Login bem-sucedido para usuário: {}", data.email());
+            logger.info("Login bem-sucedido para usuario: {}", data.email());
 
             return ResponseEntity.ok(new LoginDTO(token));
         } catch (Exception e) {
-            logger.error("Falha no login para usuário {}: {}", data.email(), e.getMessage());
+            logger.error("Falha no login para usuario {}: {}", data.email(), e.getMessage());
             return ResponseEntity.status(401).build();
         }
     }
@@ -58,7 +58,7 @@ public class UserController {
         logger.info("Tentativa de cadastro para email: {}", data.email());
 
         if (this.repository.findByEmail(data.email()) != null) {
-            logger.warn("Cadastro falhou: usuário {} já existe", data.email());
+            logger.warn("Cadastro falhou: usuario {} já existe", data.email());
             return ResponseEntity.badRequest().build();
         }
 
@@ -67,51 +67,51 @@ public class UserController {
             User newUser = new User(data.email(), encryptedPassword);
             this.repository.save(newUser);
 
-            logger.info("Usuário cadastrado com sucesso: {}", data.email());
+            logger.info("Usuario cadastrado com sucesso: {}", data.email());
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            logger.error("Erro ao cadastrar usuário {}: {}", data.email(), e.getMessage(), e);
+            logger.error("Erro ao cadastrar usuario {}: {}", data.email(), e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @GetMapping("listar/todos")
     public List<User> listarTodos() {
-        logger.info("Listando todos os usuários");
+        logger.info("Listando todos os usuarios");
         return service.listarTodos();
     }
 
     @GetMapping("listar/{id}")
     public User listar(@PathVariable Long id) {
-        logger.info("Buscando usuário com ID {}", id);
+        logger.info("Buscando usuario com ID {}", id);
         return service.listarUser(id);
     }
 
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarUser(@PathVariable Long id){
-        logger.info("Solicitação para deletar usuário com ID {}", id);
+        logger.info("Solicitação para deletar usuario com ID {}", id);
 
         try {
             service.excluirUser(id);
-            logger.info("Usuário com ID {} deletado com sucesso", id);
-            return ResponseEntity.ok("Usuário deletado com sucesso!");
+            logger.info("Usuario com ID {} deletado com sucesso", id);
+            return ResponseEntity.ok("Usuario deletado com sucesso!");
         } catch (Exception e) {
-            logger.error("Erro ao deletar usuário com ID {}: {}", id, e.getMessage(), e);
-            return ResponseEntity.internalServerError().body("Erro ao deletar usuário");
+            logger.error("Erro ao deletar usuario com ID {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Erro ao deletar usuario");
         }
     }
 
     @PutMapping("atualizar/{id}")
     public ResponseEntity<String> atualizarUser(@PathVariable Long id, @RequestBody User user) {
-        logger.info("Solicitação para atualizar usuário com ID {}", id);
+        logger.info("Solicitação para atualizar usuario com ID {}", id);
 
         try {
             service.atualizarUser(id, user);
-            logger.info("Usuário com ID {} atualizado com sucesso", id);
-            return ResponseEntity.ok("Usuário atualizado com sucesso!");
+            logger.info("Usuario com ID {} atualizado com sucesso", id);
+            return ResponseEntity.ok("Usuario atualizado com sucesso!");
         } catch (Exception e) {
-            logger.error("Erro ao atualizar usuário com ID {}: {}", id, e.getMessage(), e);
-            return ResponseEntity.internalServerError().body("Erro ao atualizar usuário");
+            logger.error("Erro ao atualizar usuario com ID {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Erro ao atualizar usuario");
         }
     }
 }

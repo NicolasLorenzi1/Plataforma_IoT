@@ -28,7 +28,7 @@ public class DispositivoToken {
     @Column(nullable = false, unique = true)
     private String token;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime dataValidade;
 
     @ManyToOne

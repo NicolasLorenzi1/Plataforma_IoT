@@ -33,8 +33,7 @@ public class DispositivoService {
 
         repository.save(dispositivo);
 
-        // Como o dispositivo é novo, geramos um token de editor por padrão
-        DispositivoToken token = tokenService.gerarTokenParaDispositivo(dispositivo, true);
+        DispositivoToken token = tokenService.gerarTokenParaDispositivo(dispositivo);
 
         return token.getToken();
     }

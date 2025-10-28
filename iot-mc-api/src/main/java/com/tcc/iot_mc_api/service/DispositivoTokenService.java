@@ -26,12 +26,12 @@ public class DispositivoTokenService {
         return UUID.randomUUID().toString();
     }
 
-    public DispositivoToken gerarTokenParaDispositivo(Dispositivo dispositivo, boolean isEditor) {
-        DispositivoTokenRole role = isEditor ? DispositivoTokenRole.EDITOR : DispositivoTokenRole.LEITOR;
+    public DispositivoToken gerarTokenParaDispositivo(Dispositivo dispositivo) {
+        DispositivoTokenRole role = DispositivoTokenRole.DONO;          
 
         DispositivoToken token = new DispositivoToken(
             gerarToken(),
-            LocalDateTime.now().plusDays(7),
+            null, 
             dispositivo,
             role
         );
@@ -58,7 +58,11 @@ public class DispositivoTokenService {
 
     public boolean validarToken(String token) {
         return repository.findByToken(token)
-            .filter(t -> !t.isRevoked() && t.getDataValidade().isAfter(LocalDateTime.now()))
+            .filter(t -> !t.isRevoked())
+            .filter(t -> 
+                t.getRole() == DispositivoTokenRole.DONO || 
+                (t.getDataValidade() != null && t.getDataValidade().isAfter(LocalDateTime.now()))
+            )
             .isPresent();
     }
 
