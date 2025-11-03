@@ -3,43 +3,34 @@ package com.tcc.iot_mc_api.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tcc.iot_mc_api.dto.SensorDTO;
-import com.tcc.iot_mc_api.model.device.Dispositivo;
 import com.tcc.iot_mc_api.model.device.Sensor;
 import com.tcc.iot_mc_api.model.user.User;
 import com.tcc.iot_mc_api.repository.SensorRepository;
 
 @Service
 public class SensorService {
-    private final SensorRepository repository;
-    private final DispositivoSensorService dispositivoSensorService;
-    private final DispositivoTokenService dispositivoTokenService;
 
-    public SensorService(SensorRepository repository, DispositivoSensorService dispositivoSensorService, DispositivoTokenService dispositivoTokenService) {
-        this.repository = repository;
-        this.dispositivoSensorService = dispositivoSensorService;
-        this.dispositivoTokenService = dispositivoTokenService;
+    @Autowired
+    private SensorRepository repository;
+
+
+    public void registrarSensor(SensorDTO data, User user) {
+        Sensor sensor = new Sensor(
+                data.nome(),
+                data.unidadeMedida(),
+                data.status(),
+                data.precisao(),
+                data.intervaloDeOperacao(),
+                LocalDateTime.now(),
+                user);
+
+        repository.save(sensor);
+
     }
-
-public void registrarSensor(SensorDTO data, String dispositivoToken, User user) {
-    Sensor sensor = new Sensor(
-        data.nome(),
-        data.unidadeMedida(),
-        data.status(),
-        data.precisao(),
-        data.intervaloDeOperacao(),
-        LocalDateTime.now(),
-        user
-    );
-
-    repository.save(sensor);
-
-    Dispositivo dispositivo = dispositivoTokenService.getDispositivoByToken(dispositivoToken);
-    dispositivoSensorService.vincularSensorAoDispositivo(dispositivo.getId(), sensor.getId());
-}
-
 
     public void excluirSensor(Long id) {
         repository.deleteById(id);
@@ -47,7 +38,7 @@ public void registrarSensor(SensorDTO data, String dispositivoToken, User user) 
 
     public void atualizarSensor(Long id, Sensor sensorAtualizado) {
         Sensor sensor = repository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Sensor não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Sensor não encontrado"));
 
         sensor.setNome(sensorAtualizado.getNome());
         sensor.setIntervaloDeOperacao(sensorAtualizado.getIntervaloDeOperacao());
@@ -60,11 +51,10 @@ public void registrarSensor(SensorDTO data, String dispositivoToken, User user) 
 
     public Sensor listarSensor(Long id) {
         return repository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Sensor não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Sensor não encontrado"));
     }
 
     public List<Sensor> listarTodos() {
         return repository.findAll();
     }
 }
-

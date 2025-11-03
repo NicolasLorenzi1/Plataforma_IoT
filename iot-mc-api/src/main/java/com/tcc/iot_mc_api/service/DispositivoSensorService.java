@@ -2,6 +2,7 @@ package com.tcc.iot_mc_api.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tcc.iot_mc_api.model.device.Dispositivo;
@@ -14,18 +15,14 @@ import com.tcc.iot_mc_api.repository.SensorRepository;
 @Service
 public class DispositivoSensorService {
 
-    private final DispositivoSensorRepository repository;
-    private final DispositivoRepository dispositivoRepository;
-    private final SensorRepository sensorRepository;
+    @Autowired
+    private DispositivoSensorRepository repository;
 
-    public DispositivoSensorService(
-            DispositivoSensorRepository repository,
-            DispositivoRepository dispositivoRepository,
-            SensorRepository sensorRepository) {
-        this.repository = repository;
-        this.dispositivoRepository = dispositivoRepository;
-        this.sensorRepository = sensorRepository;
-    }
+    @Autowired
+    private DispositivoRepository dispositivoRepository;
+
+    @Autowired
+    private SensorRepository sensorRepository;
 
     public DispositivoSensor vincularSensorAoDispositivo(Long dispositivoId, Long sensorId) {
         Dispositivo dispositivo = dispositivoRepository.findById(dispositivoId)

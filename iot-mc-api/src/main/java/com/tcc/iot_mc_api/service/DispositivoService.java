@@ -3,6 +3,7 @@ package com.tcc.iot_mc_api.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tcc.iot_mc_api.dto.DispositivoDTO;
@@ -14,13 +15,15 @@ import com.tcc.iot_mc_api.repository.DispositivoRepository;
 @Service
 public class DispositivoService {
 
-    private final DispositivoRepository repository;
-    private final DispositivoTokenService tokenService;
+    @Autowired
+    private DispositivoRepository repository;
 
-    public DispositivoService(DispositivoRepository repository, DispositivoTokenService tokenService) {
-        this.repository = repository;
-        this.tokenService = tokenService;
-    }
+    @Autowired
+    private DispositivoTokenService tokenService;
+
+    @Autowired
+    private DispositivoSensorService dispositivoSensorService;
+
 
     public String registrarDispositivo(DispositivoDTO dispositivoDTO, User user) {
         Dispositivo dispositivo = new Dispositivo(
@@ -36,6 +39,11 @@ public class DispositivoService {
         DispositivoToken token = tokenService.gerarTokenParaDispositivo(dispositivo);
 
         return token.getToken();
+    }
+
+    public void associarSensorADispositivo(Long sensorId, String dispositivoToken) {
+        Dispositivo dispositivo = tokenService.getDispositivoByToken(dispositivoToken);
+        dispositivoSensorService.vincularSensorAoDispositivo(dispositivo.getId(), sensorId);
     }
 
     public void excluirDispositivo(Long id) {

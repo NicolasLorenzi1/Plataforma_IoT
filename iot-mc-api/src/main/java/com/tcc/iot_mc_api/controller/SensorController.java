@@ -27,11 +27,11 @@ public class SensorController {
     }
 
     @PostMapping("registrar")
-    public ResponseEntity<String> registrarSensor(@RequestBody SensorDTO data, @RequestHeader("X-DEVICE-TOKEN") String dispositivoToken,  @AuthenticationPrincipal User user) {
+    public ResponseEntity<String> registrarSensor(@RequestBody SensorDTO data,  @AuthenticationPrincipal User user) {
         logger.info("Solicitação para registrar sensor: {}", data);
 
         try {
-            service.registrarSensor(data, dispositivoToken, user);
+            service.registrarSensor(data, user);
             logger.info("Sensor registrado com sucesso");
             return ResponseEntity.ok("Sensor salvo");
         } catch (Exception e) {

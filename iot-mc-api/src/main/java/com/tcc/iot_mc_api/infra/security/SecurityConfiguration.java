@@ -40,15 +40,12 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/user/cadastrar").permitAll()
 
-                        // Somente ADMIN pode acessar rotas de usuário
                         .requestMatchers("/api/user/**").hasRole("ADMIN")
 
-                        // Qualquer usuário autenticado (USER ou ADMIN) pode acessar dispositivos,
-                        // sensores e leituras
                         .requestMatchers("/api/dispositivo/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/sensor/**", "/api/leitura/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/sensor/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/leitura/**").permitAll()
 
-                        // Qualquer outra precisa estar autenticada
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(dispositivoTokenFilter, SecurityFilter.class)
@@ -58,10 +55,10 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173")); // Frontend
+        configuration.setAllowedOrigins(List.of("http://localhost:5173")); 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setExposedHeaders(List.of("Authorization")); // opcional
+        configuration.setExposedHeaders(List.of("Authorization")); 
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
