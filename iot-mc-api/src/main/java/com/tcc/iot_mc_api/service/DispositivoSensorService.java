@@ -12,6 +12,8 @@ import com.tcc.iot_mc_api.repository.DispositivoRepository;
 import com.tcc.iot_mc_api.repository.DispositivoSensorRepository;
 import com.tcc.iot_mc_api.repository.SensorRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class DispositivoSensorService {
 
@@ -41,4 +43,17 @@ public class DispositivoSensorService {
     public void removerVinculo(Long id) {
         repository.deleteById(id);
     }
+
+    public void removerVinculo(Long dispositivoId, Long sensorId) {
+    repository.deleteByDispositivoIdAndSensorId(dispositivoId, sensorId);
+}
+
+    @Transactional
+    public List<Sensor> listarSensoresDoDispositivo(Long dispositivoId) {
+    return repository.findByDispositivoId(dispositivoId)
+                     .stream()
+                     .map(DispositivoSensor::getSensor)
+                     .toList();
+}
+
 }

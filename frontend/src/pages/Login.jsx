@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
-  const [token, setToken] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -28,13 +26,13 @@ function Login() {
 
       const data = await response.json();
       console.log("Login bem-sucedido:", data);
-      navigate("/home");
-
 
       if (data.token) {
-        setToken(data.token);
         localStorage.setItem("token", data.token);
       }
+
+      navigate("/home", { replace: true });
+
     } catch (err) {
       console.error(err);
       setError("Email ou senha inválidos");
@@ -47,6 +45,7 @@ function Login() {
       className="bg-white p-6 rounded shadow-md w-80"
     >
       <h2 className="text-xl font-bold mb-4">Login</h2>
+
       <input
         type="email"
         placeholder="Email"
@@ -55,6 +54,7 @@ function Login() {
         className="w-full p-2 border rounded mb-3"
         required
       />
+
       <input
         type="password"
         placeholder="Senha"
@@ -63,6 +63,7 @@ function Login() {
         className="w-full p-2 border rounded mb-3"
         required
       />
+
       <button
         type="submit"
         className="w-full bg-blue-500 text-white p-2 rounded"
@@ -71,7 +72,6 @@ function Login() {
       </button>
 
       {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-      {token && <p className="text-green-600 text-sm mt-2">Login feito com sucesso!</p>}
 
       <p className="text-sm mt-3 text-center">
         Não tem conta?{" "}

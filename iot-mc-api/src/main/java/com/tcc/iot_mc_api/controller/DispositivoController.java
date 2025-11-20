@@ -86,11 +86,11 @@ public class DispositivoController {
     }
 
     @PutMapping("atualizar/{id}")
-    public ResponseEntity<String> atualizarDispositivo(@PathVariable Long id, @RequestBody DispositivoDTO dispositivo) {
+    public ResponseEntity<String> atualizarDispositivo(@PathVariable Long id, @RequestBody DispositivoDTO dispositivo,  @AuthenticationPrincipal User user) {
         logger.info("Solicitação para atualizar dispositivo com ID {}", id);
 
         try {
-            service.atualizarDispositivo(id, dispositivo);
+            service.atualizarDispositivo(id, dispositivo, user);
             logger.info("Dispositivo com ID {} atualizado com sucesso", id);
             return ResponseEntity.ok("Dispositivo atualizado com sucesso!");
         } catch (Exception e) {

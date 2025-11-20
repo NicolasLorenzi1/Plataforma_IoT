@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 export default function Navbar({ onMenuClick }) {
   return (
     <header

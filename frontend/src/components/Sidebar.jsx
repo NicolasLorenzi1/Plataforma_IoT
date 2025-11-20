@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Sidebar({ open, onClose }) {
@@ -28,7 +27,6 @@ export default function Sidebar({ open, onClose }) {
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
         <strong>Menu</strong>
 
-        {/* Botão de fechar */}
         <button
           onClick={onClose}
           style={{
@@ -48,7 +46,6 @@ export default function Sidebar({ open, onClose }) {
         <Link to="/sensores" onClick={onClose}>📡 Sensores</Link>
         <Link to="/configuracoes" onClick={onClose}>⚙️ Configurações</Link>
 
-        {/* Logout */}
         <button
           onClick={handleLogout}
           style={{

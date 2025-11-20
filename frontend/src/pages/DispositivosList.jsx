@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../services/api";
+import axiosInstance from "../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 export default function DispositivosList() {
@@ -7,9 +7,10 @@ export default function DispositivosList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.get("/dispositivo/listar/todos")
-      .then(res => setDispositivos(res.data))
-      .catch(err => console.error("Erro ao carregar dispositivos:", err));
+    axiosInstance
+      .get("/api/dispositivo/listar/todos")
+      .then((res) => setDispositivos(res.data))
+      .catch((err) => console.error("Erro ao carregar dispositivos:", err));
   }, []);
 
   return (
@@ -40,7 +41,7 @@ export default function DispositivosList() {
             }}
             onClick={() => navigate(`/dispositivos/${d.id}`)}
           >
-            <strong>{d.nome}</strong>  
+            <strong>{d.nome}</strong>
             <div>Local: {d.local}</div>
             <div>Status: {d.status}</div>
           </li>
