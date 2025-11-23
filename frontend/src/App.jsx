@@ -10,6 +10,8 @@ import SensorDetalhes from "./pages/SensorDetalhes";
 import SensorEditar from "./pages/SensorEditar";
 import SensoresList from "./pages/SensoresList";
 import SensorNovo from "./pages/SensorNovo";
+import GraficoLeituras from "./pages/GraficoLeituras";
+
 
 import MainLayout from "./components/Layout";
 
@@ -118,6 +120,9 @@ export default function App() {
       />
 
       <Route path="*" element={<Navigate to="/" replace />} />
+
+      <Route path="/grafico" element={<GraficoLeituras />} />
+
     </Routes>
   );
 }

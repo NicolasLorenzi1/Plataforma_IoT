@@ -67,17 +67,22 @@ export default function DispositivoDetalhes() {
       });
   }
 
-  if (!dispositivo)
-    return <div className="p-6 text-lg">Carregando...</div>;
+  if (!dispositivo) return <div className="p-6 text-lg">Carregando...</div>;
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Detalhes do Dispositivo</h1>
 
       <div className="bg-white p-5 rounded-xl shadow-md mb-8 border">
-        <p><strong>Nome:</strong> {dispositivo.nome}</p>
-        <p><strong>Local:</strong> {dispositivo.local}</p>
-        <p><strong>Status:</strong> {dispositivo.status}</p>
+        <p>
+          <strong>Nome:</strong> {dispositivo.nome}
+        </p>
+        <p>
+          <strong>Local:</strong> {dispositivo.local}
+        </p>
+        <p>
+          <strong>Status:</strong> {dispositivo.status}
+        </p>
       </div>
 
       <div className="flex items-center justify-between mb-4">
@@ -106,8 +111,12 @@ export default function DispositivoDetalhes() {
                 </h3>
               </Link>
 
-              <p><strong>Unidade:</strong> {s.unidadeMedida}</p>
-              <p><strong>Status:</strong> {s.status}</p>
+              <p>
+                <strong>Unidade:</strong> {s.unidadeMedida}
+              </p>
+              <p>
+                <strong>Status:</strong> {s.status}
+              </p>
 
               <button
                 onClick={() => removerVinculo(s.id)}

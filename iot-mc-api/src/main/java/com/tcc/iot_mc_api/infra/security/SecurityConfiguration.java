@@ -42,10 +42,11 @@ public class SecurityConfiguration {
 
                         .requestMatchers("/api/user/**").hasRole("ADMIN")
 
+                        .requestMatchers("/api/dispositivo/por-token/**").permitAll()
                         .requestMatchers("/api/dispositivo/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/sensor/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/leitura/**").permitAll()
-
+                                    
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(dispositivoTokenFilter, SecurityFilter.class)

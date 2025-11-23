@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: iot-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - iot-network
+
+  backend:
+    build:
+      context: ./iot-mc-api
+      dockerfile: Dockerfile
+    image: iot-mc-api:latest
+    container_name: iot-api
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "${APP_PORT}:8080"
+    networks:
+      - iot-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: iot-frontend:latest
+    container_name: iot-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    networks:
+      - iot-network
+
+volumes:
+  db_data:
+
+networks:
+  iot-network:
+    driver: bridge

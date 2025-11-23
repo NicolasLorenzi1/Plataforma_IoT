@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tcc.iot_mc_api.dto.LeituraDTO;
+import com.tcc.iot_mc_api.dto.LeituraPorDispositivoDTO;
 import com.tcc.iot_mc_api.model.device.Leitura;
 import com.tcc.iot_mc_api.service.LeituraService;
 
@@ -17,17 +18,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/leitura")
 public class LeituraController {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(LeituraController.class);
 
     @Autowired
     private LeituraService service;
-
 
     @PostMapping("enviar")
     public ResponseEntity<String> receberLeitura(@RequestBody LeituraDTO leituraDTO) {
@@ -50,5 +51,10 @@ public class LeituraController {
         logger.info("Total de leituras encontrados: {}", leituras.size());
         return leituras;
     }
-    
+
+    @GetMapping("/dispositivo/{id}")
+    public ResponseEntity<List<LeituraPorDispositivoDTO>> listarPorDispositivo(@PathVariable Long id) {
+        return ResponseEntity.ok(service.listarPorDispositivo(id));
+    }
+
 }

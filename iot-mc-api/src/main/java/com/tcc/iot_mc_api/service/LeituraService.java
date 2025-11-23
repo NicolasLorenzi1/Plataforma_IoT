@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tcc.iot_mc_api.dto.LeituraDTO;
+import com.tcc.iot_mc_api.dto.LeituraPorDispositivoDTO;
 import com.tcc.iot_mc_api.model.device.DispositivoSensor;
 import com.tcc.iot_mc_api.model.device.Leitura;
 import com.tcc.iot_mc_api.repository.DispositivoSensorRepository;
@@ -36,5 +37,19 @@ public class LeituraService {
 
     public List<Leitura> listarTodos() {
         return leituraRepository.findAll();
+    }
+
+      public List<LeituraPorDispositivoDTO> listarPorDispositivo(Long dispositivoId) {
+
+        List<Leitura> leituras = leituraRepository.findByDispositivoSensor_Dispositivo_Id(dispositivoId);
+
+        return leituras.stream().map(l ->
+                new LeituraPorDispositivoDTO(
+                        l.getDispositivoSensor().getSensor().getId(),
+                        l.getDispositivoSensor().getSensor().getNome(),
+                        l.getValor(),
+                        l.getTempoDaLeitura()
+                )
+        ).toList();
     }
 }

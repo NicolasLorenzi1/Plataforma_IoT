@@ -99,5 +99,21 @@ public class DispositivoController {
         }
     }
 
+    @GetMapping("/por-token/{token}")
+    public ResponseEntity<?> listarPorToken(@PathVariable String token) {
+        try {
+            Dispositivo dispositivo = service.listarPorToken(token);
+            return ResponseEntity.ok(
+                new java.util.HashMap<String, Object>() {{
+                    put("id", dispositivo.getId());
+                    put("nome", dispositivo.getNome());
+                    put("local", dispositivo.getLocal());
+                }}
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Token inválido ou dispositivo não encontrado");
+        }
+    }
+
     
 }

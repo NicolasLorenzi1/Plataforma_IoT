@@ -73,4 +73,9 @@ public class DispositivoService {
     public List<Dispositivo> listarTodos() {
         return repository.findAll();
     }
+
+    public Dispositivo listarPorToken(String token) {
+        Dispositivo dispositivo = tokenService.getDispositivoByToken(token);
+        return dispositivo;
+    }
 }
