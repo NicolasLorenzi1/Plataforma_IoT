@@ -31,7 +31,7 @@ function Login() {
         localStorage.setItem("token", data.token);
       }
 
-      navigate("/home", { replace: true });
+      navigate("/home");
 
     } catch (err) {
       console.error(err);

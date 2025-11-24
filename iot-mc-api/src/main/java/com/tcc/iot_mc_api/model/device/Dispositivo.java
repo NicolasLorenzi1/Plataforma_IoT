@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tcc.iot_mc_api.model.user.User;
 
 import jakarta.persistence.CascadeType;
@@ -58,7 +59,7 @@ public class Dispositivo {
     private User user;
 
     @OneToMany(mappedBy = "dispositivo", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference
     private List<DispositivoToken> tokens = new ArrayList<>();
 
 

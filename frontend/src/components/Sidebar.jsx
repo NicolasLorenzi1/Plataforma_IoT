@@ -44,7 +44,6 @@ export default function Sidebar({ open, onClose }) {
         <Link to="/home" onClick={onClose}>🏠 Home</Link>
         <Link to="/dispositivos" onClick={onClose}>📟 Dispositivos</Link>
         <Link to="/sensores" onClick={onClose}>📡 Sensores</Link>
-        <Link to="/configuracoes" onClick={onClose}>⚙️ Configurações</Link>
 
         <button
           onClick={handleLogout}

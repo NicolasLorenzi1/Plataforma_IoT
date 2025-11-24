@@ -11,7 +11,8 @@ import SensorEditar from "./pages/SensorEditar";
 import SensoresList from "./pages/SensoresList";
 import SensorNovo from "./pages/SensorNovo";
 import GraficoLeituras from "./pages/GraficoLeituras";
-
+import GerarToken from "./pages/GerarToken";
+import PrivateRoute from "./components/PrivateRoute";
 
 import MainLayout from "./components/Layout";
 
@@ -50,79 +51,105 @@ export default function App() {
       <Route
         path="/home"
         element={
-          <MainLayout>
-            <Home />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <Home />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/dispositivos"
         element={
-          <MainLayout>
-            <DispositivosList />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <DispositivosList />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/dispositivos/novo"
         element={
-          <MainLayout>
-            <DispositivoNovo />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <DispositivoNovo />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/dispositivos/:id"
         element={
-          <MainLayout>
-            <DispositivoDetalhes />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <DispositivoDetalhes />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/sensor/:id"
         element={
-          <MainLayout>
-            <SensorDetalhes />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <SensorDetalhes />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/sensor/editar/:id"
         element={
-          <MainLayout>
-            <SensorEditar />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <SensorEditar />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/sensores"
         element={
-          <MainLayout>
-            <SensoresList />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <SensoresList />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/sensor/novo"
         element={
-          <MainLayout>
-            <SensorNovo />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <SensorNovo />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route path="*" element={<Navigate to="/" replace />} />
 
-      <Route path="/grafico" element={<GraficoLeituras />} />
+      <Route path="/grafico/:token" element={<GraficoLeituras />} />
 
+      <Route
+        path="/dispositivo/:id/gerar-token"
+        element={
+          <PrivateRoute>
+            <MainLayout>
+              <GerarToken />
+            </MainLayout>
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }

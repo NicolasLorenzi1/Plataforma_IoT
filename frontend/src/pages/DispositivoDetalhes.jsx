@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 
 export default function DispositivoDetalhes() {
@@ -9,6 +9,7 @@ export default function DispositivoDetalhes() {
   const [sensoresDisponiveis, setSensoresDisponiveis] = useState([]);
   const [modalAberto, setModalAberto] = useState(false);
   const [sensorSelecionado, setSensorSelecionado] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     axiosInstance
@@ -67,6 +68,13 @@ export default function DispositivoDetalhes() {
       });
   }
 
+  const tokenDono =
+    dispositivo &&
+    Array.isArray(dispositivo.tokens) &&
+    dispositivo.tokens.find((t) => t.role === "DONO" || t.role === "dono")
+      ?.token;
+  console.log("Token dono:", tokenDono);
+
   if (!dispositivo) return <div className="p-6 text-lg">Carregando...</div>;
 
   return (
@@ -93,6 +101,17 @@ export default function DispositivoDetalhes() {
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
           + Adicionar Sensor
+        </button>
+
+        <button onClick={() => navigate(`/grafico/${tokenDono}`)}>
+          Ver gráfico
+        </button>
+
+        <button
+          onClick={() => navigate(`/dispositivo/${id}/gerar-token`)}
+          className="btn btn-primary"
+        >
+          Gerar Token
         </button>
       </div>
 
