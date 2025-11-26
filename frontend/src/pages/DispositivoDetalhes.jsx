@@ -68,6 +68,22 @@ export default function DispositivoDetalhes() {
       });
   }
 
+  async function handleExcluir() {
+    if (!window.confirm("Tem certeza que deseja excluir este dispositivo?")) {
+        return;
+    }
+
+    try {
+        await axiosInstance.delete(`/api/dispositivo/deletar/${id}`);
+        alert("Dispositivo excluído com sucesso!");
+        navigate("/dispositivos");
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao excluir dispositivo.");
+    }
+}
+
+
   const tokenDono =
     dispositivo &&
     Array.isArray(dispositivo.tokens) &&
@@ -113,6 +129,20 @@ export default function DispositivoDetalhes() {
         >
           Gerar Token
         </button>
+
+        <button
+        className="botao-primario"
+        onClick={() => navigate(`/dispositivo/editar/${id}`)}
+    >
+        Editar
+    </button>
+
+    <button
+        className="botao-perigo"
+        onClick={handleExcluir}
+    >
+        Excluir
+    </button>
       </div>
 
       {sensores.length === 0 ? (

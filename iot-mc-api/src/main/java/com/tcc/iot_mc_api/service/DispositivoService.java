@@ -53,14 +53,13 @@ public class DispositivoService {
         repository.delete(dispositivo);
     }
 
-    public void atualizarDispositivo(Long id, DispositivoDTO dispositivoAtualizado, User user) {
+    public void atualizarDispositivo(Long id, DispositivoDTO dispositivoAtualizado) {
         Dispositivo dispositivo = repository.findById(id)
             .orElseThrow(() -> new RuntimeException("Dispositivo não encontrado"));
 
         dispositivo.setNome(dispositivoAtualizado.nome());
         dispositivo.setLocal(dispositivoAtualizado.local());
         dispositivo.setStatus(dispositivoAtualizado.status());
-        dispositivo.setUser(user);
 
         repository.save(dispositivo);
     }

@@ -13,6 +13,8 @@ import SensorNovo from "./pages/SensorNovo";
 import GraficoLeituras from "./pages/GraficoLeituras";
 import GerarToken from "./pages/GerarToken";
 import PrivateRoute from "./components/PrivateRoute";
+import DispositivoEditar from "./pages/DispositivoEditar";
+
 
 import MainLayout from "./components/Layout";
 
@@ -109,6 +111,17 @@ export default function App() {
           <PrivateRoute>
             <MainLayout>
               <SensorEditar />
+            </MainLayout>
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/dispositivo/editar/:id"
+        element={
+          <PrivateRoute>
+            <MainLayout>
+              <DispositivoEditar />
             </MainLayout>
           </PrivateRoute>
         }
