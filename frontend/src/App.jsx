@@ -1,168 +1,67 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Home from "./pages/Home";
-import DispositivosList from "./pages/DispositivosList";
-import DispositivoNovo from "./pages/DispositivoNovo";
-import DispositivoDetalhes from "./pages/DispositivoDetalhes";
-import SensorDetalhes from "./pages/SensorDetalhes";
-import SensorEditar from "./pages/SensorEditar";
-import SensoresList from "./pages/SensoresList";
-import SensorNovo from "./pages/SensorNovo";
-import GraficoLeituras from "./pages/GraficoLeituras";
-import GerarToken from "./pages/GerarToken";
-import PrivateRoute from "./components/PrivateRoute";
-import DispositivoEditar from "./pages/DispositivoEditar";
-
-
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "./components/Layout";
+import PrivateRoute from "./components/PrivateRoute";
 
-function isAuthenticated() {
-  return !!localStorage.getItem("token");
-}
+// Auth
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 
-export default function App() {
+// Main
+import Home from "./pages/Home";
+
+// Dispositivos
+import DispositivosList from "./pages/dispositivos/DispositivosList";
+import DispositivoDetalhes from "./pages/dispositivos/DispositivoDetalhes";
+import DispositivoNovo from "./pages/dispositivos/DispositivoNovo";
+import DispositivoEditar from "./pages/dispositivos/DispositivoEditar";
+
+// Sensores
+import SensoresList from "./pages/sensores/SensoresList";
+import SensorDetalhes from "./pages/sensores/SensorDetalhes";
+import SensorNovo from "./pages/sensores/SensorNovo";
+import SensorEditar from "./pages/sensores/SensorEditar";
+
+// Outros
+import GerarToken from "./pages/GerarToken";
+import GraficoLeituras from "./pages/GraficoLeituras";
+
+function App() {
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          isAuthenticated() ? (
-            <Navigate to="/home" replace />
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
-      />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/grafico/:token" element={<GraficoLeituras />} />
 
-      <Route
-        path="/login"
-        element={
-          !isAuthenticated() ? <Login /> : <Navigate to="/home" replace />
-        }
-      />
+        {/* Private Routes */}
+        <Route
+          path="/*"
+          element={
+            <PrivateRoute>
+              <MainLayout>
+                <Routes>
+                  <Route path="/" element={<Navigate to="/home" replace />} />
+                  <Route path="/home" element={<Home />} />
 
-      <Route
-        path="/register"
-        element={
-          !isAuthenticated() ? <Register /> : <Navigate to="/home" replace />
-        }
-      />
+                  {/* Dispositivos */}
+                  <Route path="/dispositivos" element={<DispositivosList />} />
+                  <Route path="/dispositivos/novo" element={<DispositivoNovo />} />
+                  <Route path="/dispositivos/:id" element={<DispositivoDetalhes />} />
+                  <Route path="/dispositivo/editar/:id" element={<DispositivoEditar />} />
+                  <Route path="/dispositivo/:id/gerar-token" element={<GerarToken />} />
 
-      <Route
-        path="/home"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <Home />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/dispositivos"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <DispositivosList />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/dispositivos/novo"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <DispositivoNovo />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/dispositivos/:id"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <DispositivoDetalhes />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/sensor/:id"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <SensorDetalhes />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/sensor/editar/:id"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <SensorEditar />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/dispositivo/editar/:id"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <DispositivoEditar />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/sensores"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <SensoresList />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/sensor/novo"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <SensorNovo />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route path="*" element={<Navigate to="/" replace />} />
-
-      <Route path="/grafico/:token" element={<GraficoLeituras />} />
-
-      <Route
-        path="/dispositivo/:id/gerar-token"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <GerarToken />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-    </Routes>
+                  {/* Sensores */}
+                  <Route path="/sensores" element={<SensoresList />} />
+                  <Route path="/sensor/novo" element={<SensorNovo />} />
+                  <Route path="/sensor/:id" element={<SensorDetalhes />} />
+                  <Route path="/sensor/editar/:id" element={<SensorEditar />} />
+                </Routes>
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+      </Routes>
   );
 }
+
+export default App;

@@ -1,19 +1,21 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 
 export default function MainLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
+    <div className="flex min-h-screen bg-gray-50">
       <Sidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+      <div className="flex-1 flex flex-col min-w-0">
         <Navbar onMenuClick={() => setMenuOpen(!menuOpen)} />
 
-        <main style={{ padding: 20 }}>
-          {children}
+        <main className="flex-1 p-6 lg:p-8">
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
         </main>
       </div>
     </div>
