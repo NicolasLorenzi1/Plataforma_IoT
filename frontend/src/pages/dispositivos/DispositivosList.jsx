@@ -11,7 +11,7 @@ export default function DispositivosList() {
 
   useEffect(() => {
     axiosInstance
-      .get("/api/dispositivo/listar/todos")
+      .get("/api/dispositivo/listar")
       .then((res) => {
         setDispositivos(res.data);
         setLoading(false);

@@ -57,4 +57,8 @@ public class SensorService {
     public List<Sensor> listarTodos() {
         return repository.findAll();
     }
+
+    public List<Sensor> listarPorUsuario(User user) {
+        return repository.findByUser(user);
+    }
 }

@@ -58,6 +58,14 @@ public class DispositivoController {
         return dispositivos;
     }
 
+    @GetMapping("listar")
+    public List<Dispositivo> listarPorUsuario(@AuthenticationPrincipal User user) {
+        logger.info("Listando os dispositivos do usuario");
+        List<Dispositivo> dispositivos = service.listarPorUsuario(user);
+        logger.info("Total de dispositivos encontrados do usuario: {}", dispositivos.size());
+        return dispositivos;
+    }
+
     @GetMapping("listar/{id}")
     public Dispositivo listar(@PathVariable Long id) {
         logger.info("Buscando dispositivo com ID {}", id);

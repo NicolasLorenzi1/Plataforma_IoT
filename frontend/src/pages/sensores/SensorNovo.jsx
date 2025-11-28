@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Save } from 'lucide-react';
 import axiosInstance from "../../api/axiosInstance";
-import { Button, Card, Badge, PageHeader, Modal, Select, Alert, Loading } from '../../components/ui/Index';
+import { Button, Card, Badge, PageHeader, Modal, Select, Alert, Loading, Input } from '../../components/ui/Index';
 
 export default function SensorNovo() {
   const navigate = useNavigate();

@@ -53,7 +53,7 @@ export default function DispositivoNovo() {
         <form onSubmit={salvar} className="space-y-5">
           <Input
             label="Nome do Dispositivo"
-            placeholder="Ex: Sensor Temperatura Sala 1"
+            placeholder="Ex: Estação Meteorológica"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
             required

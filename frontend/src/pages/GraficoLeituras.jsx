@@ -99,7 +99,7 @@ export default function GraficoPublico() {
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                📊 Dashboard Público
+                Dashboard
               </h1>
               <p className="text-gray-600">
                 Visualização em tempo real dos dados do dispositivo
@@ -132,9 +132,6 @@ export default function GraficoPublico() {
                     <MapPin size={18} />
                     <span>{dispositivo.local}</span>
                   </div>
-                  <Badge variant={dispositivo.status?.toLowerCase() || 'default'}>
-                    {dispositivo.status || 'N/A'}
-                  </Badge>
                 </div>
               </div>
             </div>
@@ -228,8 +225,7 @@ export default function GraficoPublico() {
         {/* Info Footer */}
         <Card className="p-6 bg-gray-50 border-gray-200">
           <div className="text-center text-sm text-gray-600">
-            <p>🔄 Os dados são atualizados automaticamente a cada 10 segundos</p>
-            <p className="mt-1">Plataforma IoT - Visualização Pública</p>
+            <p>Os dados são atualizados automaticamente a cada 10 segundos</p>
           </div>
         </Card>
       </div>

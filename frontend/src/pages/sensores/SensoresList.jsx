@@ -10,7 +10,7 @@ export default function SensoresList() {
 
   async function carregarSensores() {
     try {
-      const response = await fetch("http://localhost:8080/api/sensor/listar/todos", {
+      const response = await fetch("http://localhost:8080/api/sensor/listar", {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         }

@@ -42,9 +42,6 @@ export default function Sidebar({ open, onClose }) {
           {/* Header */}
           <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-sm">IoT</span>
-              </div>
               <span className="font-bold text-gray-900">Menu</span>
             </div>
             

@@ -48,6 +48,15 @@ public class SensorController {
         return sensores;
     }
 
+        @GetMapping("listar")
+    public List<Sensor> listarPorUsuario(@AuthenticationPrincipal User user) {
+        logger.info("Listando os sensores do usuario");
+        List<Sensor> sensores = service.listarPorUsuario(user);
+        logger.info("Total de sensores encontrados do usuario: {}", sensores.size());
+        return sensores;
+    }
+
+
     @GetMapping("listar/{id}")
     public Sensor listar(@PathVariable Long id) {
         logger.info("Buscando sensor com ID {}", id);
