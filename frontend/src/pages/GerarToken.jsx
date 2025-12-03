@@ -122,23 +122,15 @@ export default function GerarToken() {
                   Copiar
                 </Button>
               </div>
-
-              <Alert variant="info">
-                <strong>Importante:</strong> Guarde este token em local seguro. 
-                Você precisará dele para acessar os dados do dispositivo.
-              </Alert>
             </div>
           </Card>
         )}
 
-        {/* Info Card */}
         <Card className="p-6 bg-blue-50 border-blue-100">
           <h4 className="font-semibold text-gray-900 mb-3">ℹ️ Sobre os Tokens</h4>
           <ul className="space-y-2 text-sm text-gray-700">
             <li>• <strong>Editor:</strong> Pode enviar leituras e visualizar dados</li>
             <li>• <strong>Leitor:</strong> Apenas visualiza os dados, sem permissão de escrita</li>
-            <li>• Tokens não expiram automaticamente</li>
-            <li>• Use tokens diferentes para cada aplicação ou usuário</li>
           </ul>
         </Card>
       </div>

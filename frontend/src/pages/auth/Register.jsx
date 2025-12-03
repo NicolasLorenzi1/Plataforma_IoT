@@ -44,7 +44,6 @@ function Register() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Logo/Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl mb-4 shadow-lg">
             <span className="text-white font-bold text-2xl">IoT</span>
@@ -112,10 +111,6 @@ function Register() {
             </p>
           </div>
         </Card>
-
-        <p className="text-center text-xs text-gray-500 mt-8">
-          Plataforma IoT v1.0 - Todos os direitos reservados
-        </p>
       </div>
     </div>
   );
